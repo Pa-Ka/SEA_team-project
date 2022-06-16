@@ -34,7 +34,7 @@ def board():
     return render_template('list.html', rows = rows)
 
 
-
+"""
 @app.route('/search', methods=["GET", "POST"])
 def search():
     global conn
@@ -42,17 +42,16 @@ def search():
         userID = request.form['userID']
         conn = mysql.connect()
         cursor = conn.cursor()
-        sql = "select userID, context from example where userID = %s"
-        value = (userID)
-        cursor.execute(sql, value)
-        data = cursor.fetchall()
+        sql = "select userID, context from example where userID = %s or context = %s"
+        cursor.execute(sql, (userID, userID))
+        rows = cursor.fetchall()
 
-        for i in range(len(data)):
-            print(data[i][0]+':'+data[i][1])
+        for i in range(len(rows)):
+            print(rows[i][0]+':'+rows[i][1])
 
-        return render_template('search.html', data = data)
+        return render_template('search.html', rows = rows)
     else:
-        return render_template('search.html')
+        return render_template('search.html')"""
 
 @app.route('/add', methods = ['GET', 'POST'])
 def add():
@@ -82,17 +81,17 @@ def update(uid):
         context = request.form["context"]
         conn = mysql.connect()
         cursor = conn.cursor()
-        sql = "UPDATE example SET userID = '%s', context = '%s' WHERE userID = '%s'"%(userID, context, uid)
-        cursor.execute(sql)
+        sql = "UPDATE example SET userID = %s, context = %s WHERE userID = %s"
+        cursor.execute(sql,(userID, context, uid))
         conn.commit()
 
-
         return redirect(url_for("board"))
+
     else:
         conn = mysql.connect()
         cursor = conn.cursor()
-        sql = "SELECT userID, context from example where userID = '%s'"%(uid)
-        cursor.execute(sql)
+        sql = "SELECT userID, context from example where userID = %s"
+        cursor.execute(sql,(uid))
         row = cursor.fetchall()
 
         return render_template("update.html", row = row)
@@ -104,8 +103,8 @@ def delete(uid):
     global conn
     conn = mysql.connect()
     cursor = conn.cursor()
-    sql = "delete from example where userID = '%s'"%(uid)
-    cursor.execute(sql)
+    sql = "delete from example where userID = %s"
+    cursor.execute(sql,(uid))
     conn.commit()
 
     return redirect(url_for("board"))
