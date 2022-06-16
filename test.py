@@ -14,13 +14,25 @@ app.config['MYSQL_DATABASE_DB']='termDB'
 
 mysql.init_app(app)
 
+
 @app.route('/')
 def index():
     return  render_template('index.html')
 
 @app.route('/ranking',methods=['GET'])
-def rank():
-    return render_template('ranking.html')
+def ranking():
+    if request.method == "GET":
+        nickname=request.form['nickname']
+        current_exp=request.form['current_exp']
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT nickname, current_exp FROM example"
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        for i in range(len(data)):
+            print(data)
+        return render_template('ranking.html',data=data)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='80')
