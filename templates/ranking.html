@@ -643,10 +643,15 @@
         </div>
       </section>
 
+
+      {% if data %}
+
       <section align="center" style="margin:0;padding:0;display:flex;flex-direction:row;">
-        <img src="static/assets/img/chicken/rank 1.png" alt="당신의 캐릭터" style="padding:0px 0px 0px 100px">
-        <div style="display:flex;flex-direction:column;">
+        <!--<div style="text-align:center;display:flex;flex-direction:column;">
           <figcaption>당신의 캐릭터</figcaption>
+        </div>-->
+        <div style="position:relative;transition:.5s ease;">
+          <img src="static/assets/img/chicken/level 1.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
         </div>
 <!--        <img src="static/assets/img/chicken/level 2.png" alt="당신의 캐릭터">-->
 <!--        <img src="static/assets/img/chicken/level 3.png" alt="당신의 캐릭터">-->
@@ -660,28 +665,27 @@
           </colgroup>
           <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">랭킹</th>
             <th scope="col">닉네임</th>
             <th scope="col">점수</th>
           </tr>
           </thead>
+
           <tbody>
+
+          {% for d in data %}
           <tr>
-            <th scope="row">1</th>
-            <td>엄준식</td>
-            <td>10000</td>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{d[0]}}</td>
+            <td>{{d[1]}}</td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>홍길동</td>
-            <td>8000</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>김개똥</td>
-            <td>7000</td>
-          </tr>
+
+          {% endfor %}
+          {% else %}
+          <p> 검색결과가 없습니다. </p>
+
           </tbody>
+        {%endif%}
         </table>
       </section>
 <!--      &lt;!&ndash; ============================================&ndash;&gt;-->
