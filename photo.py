@@ -23,7 +23,7 @@ def main():
     return render_template('main.html')
 
 
-@app.route('/fileUpload', methods=['GET', 'POST'])
+@app.route('/fileupload', methods=['GET', 'POST'])
 def file_upload():
     if request.method == 'POST':
         f = request.files['file']
@@ -33,13 +33,13 @@ def file_upload():
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        sql = "INSERT INTO images (image_name, image_dir) VALUES (%s, %s)" % (secure_filename(f.filename), 'uploads/' + secure_filename(f.filename))
-        cursor.execute(sql)
+        sql = "INSERT INTO images (image_name, image_dir) VALUES (%s, %s)"
+        cursor.execute(sql,(secure_filename(f.filename),'uploads/' + secure_filename(f.filename)))
         data = cursor.fetchall()
 
         if not data:
             conn.commit()
-            return redirect(url_for("main"))
+            return redirect(url_for("fileupload"))
 
         else:
             conn.rollback()
@@ -73,5 +73,5 @@ def view():
     return render_template('view.html', data_list=data_list)  # html을 렌더하며 DB에서 받아온 값들을 넘김
 
 
-if __name__ == '__main__':
-    app.run(port=80)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port='80', debug=True)
