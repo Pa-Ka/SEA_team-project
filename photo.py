@@ -20,7 +20,7 @@ mysql.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-    return render_template('main.html')
+    return render_template('fileupload.html')
 
 
 @app.route('/fileupload', methods=['GET', 'POST'])
@@ -34,12 +34,12 @@ def file_upload():
         cursor = conn.cursor()
 
         sql = "INSERT INTO images (image_name, image_dir) VALUES (%s, %s)"
-        cursor.execute(sql,(secure_filename(f.filename),'uploads/' + secure_filename(f.filename)))
+        cursor.execute(sql,(secure_filename(f.filename),'static/uploads/' + secure_filename(f.filename)))
         data = cursor.fetchall()
 
         if not data:
             conn.commit()
-            return redirect(url_for("fileupload"))
+            return redirect(url_for("main"))
 
         else:
             conn.rollback()
