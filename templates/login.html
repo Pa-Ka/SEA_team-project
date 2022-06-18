@@ -6,18 +6,15 @@
     <link href="static/assets/css/login.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Naver Login API 사용하기</h1>
-    <div class="login-area">
-        <div id="message">
-            로그인 버튼을 눌러 로그인 해주세요.
-        </div>
-        <div id="button_area">
-           <button class="btn btn-link text-1000 fw-medium order-1 order-lg-0" type="button" onclick="login()">로그인</button>
-        </div>
+    <div id="contentBox">
+        <img class="fit-picture" id = "chickenImage" src="static/assets/img/favicons/android-chrome-512x512.png"/>
+        <h1>치킨 캘린더</h1>
+        <button_area>
+                    <img class="fit-picture" id = "login" src="static/assets/img/favicons/btnG.png" onclick="login()" />
+        </button_area>
     </div>
     <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
     <script src="static/assets/js/naverLogin.js"></script>
-
 </body>
 </html>
 
