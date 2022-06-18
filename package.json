@@ -1,0 +1,25 @@
+{
+  "name": "sea_team-project",
+  "version": "1.0.0",
+  "description": "웹 기반의 미션 플래너",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel ./templates/login.html",
+    "prebuild": "npx rimraf build",
+    "build": "parcel build --public-url ./ ./src/index.html --experimental-scope-hoisting --out-dir build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pa-Ka/SEA_team-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pa-Ka/SEA_team-project/issues"
+  },
+  "homepage": "https://github.com/Pa-Ka/SEA_team-project#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}
