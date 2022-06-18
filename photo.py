@@ -23,18 +23,19 @@ def main():
     return render_template('fileupload.html')
 
 
-@app.route('/fileupload', methods=['GET', 'POST'])
+@app.route('/fileUpload', methods=['GET', 'POST'])
 def file_upload():
     if request.method == 'POST':
         f = request.files['file']
-        f.save('static/uploads/' + secure_filename(f.filename))
-        files = os.listdir("static/uploads")
+        f.save('/home/dev2team/Desktop/SEA_team-project/static/uploads/'+secure_filename(f.filename))
+
+        # files = os.listdir("/home/dev2team/Desktop/SEA_team-project/static/uploads/")
 
         conn = mysql.connect()
         cursor = conn.cursor()
 
         sql = "INSERT INTO images (image_name, image_dir) VALUES (%s, %s)"
-        cursor.execute(sql,(secure_filename(f.filename),'static/uploads/' + secure_filename(f.filename)))
+        cursor.execute(sql,(secure_filename(f.filename),'/home/dev2team/Desktop/SEA_team-project/static/uploads/' + secure_filename(f.filename)))
         data = cursor.fetchall()
 
         if not data:
@@ -49,28 +50,27 @@ def file_upload():
         conn.close()
 
 
-@app.route('/view', methods=['GET', 'POST'])
-def view():
-    conn = mysql.connect()  # DB와 연결
-    cursor = conn.cursor()  # connection으로부터 cursor 생성 (데이터베이스의 Fetch 관리)
-    sql = "SELECT image_name, image_dir FROM images"  # 실행할 SQL문
-    cursor.execute(sql)  # 메소드로 전달해 명령문을 실행
-    data = cursor.fetchall()  # 실행한 결과 데이터를 꺼냄
-
-    data_list = []
-
-    for obj in data:  # 튜플 안의 데이터를 하나씩 조회해서
-        data_dic = {  # 딕셔너리 형태로
-            # 요소들을 하나씩 넣음
-            'name': obj[0],
-            'dir': obj[1]
-        }
-        data_list.append(data_dic)  # 완성된 딕셔너리를 list에 넣음
-
-    cursor.close()
-    conn.close()
-
-    return render_template('view.html', data_list=data_list)  # html을 렌더하며 DB에서 받아온 값들을 넘김
+# @app.route('/view', methods=['GET', 'POST'])
+# def view():
+#     conn = mysql.connect()
+#     cursor = conn.cursor()
+#     sql = "SELECT image_name, image_dir FROM images"
+#     cursor.execute(sql)
+#     data = cursor.fetchall()
+#
+#     data_list = []
+#
+#     for obj in data:
+#         data_dic = {
+#             'name': obj[0],
+#             'dir': obj[1]
+#         }
+#         data_list.append(data_dic)
+#
+#     cursor.close()
+#     conn.close()
+#
+#     return render_template('view.html', data_list=data_list)
 
 
 if __name__ == "__main__":
