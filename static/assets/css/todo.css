@@ -1,0 +1,40 @@
+.right-todo{
+    padding-left: 1%;
+    padding-right: 8%;
+    width: 30%;
+    float: right;
+    position: fixed; left : 1450px; top:100px;
+}
+
+.right-todo caption{
+    font-size: 35px;
+    text-align: center;
+    color: #0d0d0d;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display';
+    text-shadow:2px 1px 1px rgb(109, 109, 109);
+}
+
+.right-todo thead th {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: rgb(0, 0, 0);
+    border-bottom: 3px solid rgb(153, 153, 153);
+}
+.right-todo tbody th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #f3f6f7;
+}
+.right-todo td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+

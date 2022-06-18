@@ -1,0 +1,13 @@
+.center{
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-left: 25%;
+  margin-right: 25%;
+  width: 50%;
+}
+
+.btn-save{
+  color: #fff;
+  background-color: #4fd96d;
+  border-color: #4fd96d;
+}
