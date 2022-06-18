@@ -645,14 +645,24 @@
 
 
       {% if data %}
-
+      {% if current_user.current_exp %}
       <section align="center" style="margin:0;padding:0;display:flex;flex-direction:row;">
         <!--<div style="text-align:center;display:flex;flex-direction:column;">
           <figcaption>당신의 캐릭터</figcaption>
         </div>-->
         <div style="position:relative;transition:.5s ease;">
-          <img src="static/assets/img/chicken/level 1.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
+          {%if current_user.current_exp>=1000 %}
+            <img src="static/assets/img/chicken/level 5.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
+          {%elif (current_user.current_exp<1000) and(current_user.current_exp>=800)%}
+            <img src="static/assets/img/chicken/level 4.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
+          {%elif (current_user.current_exp<800) and (current_user.current_exp>=600)%}
+            <img src="static/assets/img/chicken/level 3.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
+          {%elif (current_user.current_exp<600) and (current_user.current_exp>=400)%}
+            <img src="static/assets/img/chicken/level 2.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
+          {%else%}
+            <img src="static/assets/img/chicken/level 1.png" alt="당신의 캐릭터" style=" height:50vh;width:30vw;padding:0px 0px 0px 100px">
         </div>
+      {%endif%}
 <!--        <img src="static/assets/img/chicken/level 2.png" alt="당신의 캐릭터">-->
 <!--        <img src="static/assets/img/chicken/level 3.png" alt="당신의 캐릭터">-->
 <!--        <img src="static/assets/img/chicken/rank 1.png" alt="당신의 캐릭터">-->

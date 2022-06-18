@@ -19,15 +19,14 @@ mysql.init_app(app)
 def index():
     return  render_template('index.html')
 
-@app.route('/ranking',methods=['GET'])
+@app.route('/ranking')
 def ranking():
-    if request.method == "GET":
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        return render_template('ranking.html',data = data)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    return render_template('ranking.html',data = data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='80')
