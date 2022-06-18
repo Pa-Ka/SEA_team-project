@@ -9679,6 +9679,10 @@ fieldset:disabled .btn {
   background-image: var(--bs-gradient) !important;
 }
 
+.bg-calendar {
+  background-color: #003567 !important;
+}
+
 .text-wrap {
   white-space: normal !important;
 }
