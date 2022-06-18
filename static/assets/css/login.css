@@ -1,4 +1,23 @@
 #button_area{
-    width : 500px;
-    height : 500px;
+    margin-top : 10%;
+    width: 100%;
+}
+
+#chickenImage{
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+    text-align : center;
+}
+
+#login{
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
+}
+
+#contentBox{
+  display: flex;
+  flex-direction: column;
+  text-align : center;
 }

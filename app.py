@@ -37,7 +37,6 @@ def CallBack():
     token_request = requests.get(
         f"https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id={client_id}&client_secret={client_secret}&code={code}")
     token_json = token_request.json()
-    print(token_json)
     access_token = token_json.get("access_token")
     profile_request = requests.get("https://openapi.naver.com/v1/nid/me",
                                    headers={"Authorization": f"Bearer {access_token}"}, )
@@ -60,11 +59,20 @@ def CallBack():
         nickname = profile_data['response']['email'].split('@')[0]
         recent = str(datetime.today())[0:10]
         permission = 1
-        conn = mysql.connect()
+
         cursor = conn.cursor()
         sql = "INSERT INTO user(uid, current_exp, attendance, nickname, recent, permission) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.execute(sql, (uid, current_exp, attendance, nickname, recent, permission))
         conn.commit()
+
+        userData["uid"] = uid
+        userData["current_exp"] = current_exp
+        userData["attendance"] = attendance
+        userData["nickname"] = nickname
+        userData["recent"] = recent
+        userData["permission"] = permission
+
+        profile_data['userData'] = userData
     else :
         dataName = ["uid", "current_exp", "attendance", "nickname", "recent", "permission"]
         for index in range(0,len(data[0])):
