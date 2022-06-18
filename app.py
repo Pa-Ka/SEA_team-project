@@ -66,7 +66,7 @@ class User(UserMixin):
 
 @app.route('/login')
 def login():
-    return  render_template('login.html')
+    return render_template('login.html')
 
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
@@ -146,9 +146,9 @@ def rank():
 
 # flask_login에서 제공하는 login_required를 실행하기 전 사용자 정보를 조회한다.
 @login_manager.user_loader
-def user_loader(user):
+def user_loader(user_id):
     # 사용자 정보 조회
-    user_info = User.get_user_info(user['uid'])
+    user_info = User.get_user_info(user_id)
     # user_loader함수 반환값은 사용자 '객체'여야 한다.
     # 결과값이 dict이므로 객체를 새로 생성한다.
     login_info = User(user_info)

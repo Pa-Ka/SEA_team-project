@@ -61,12 +61,12 @@
 				<div class="col-sm-4">
 					<div class="leaderboard-card">
 						<div class="leaderboard-card__top">
-							<h3 class="text-center">$1,051</h3>
+							<h3 class="text-center">{{ current_user.current_exp }}</h3>
 						</div>
 						<div class="leaderboard-card__body">
 							<div class="text-center">
 								<img src="static/assets/img/users/user2.jpg" class="circle-img mb-2" alt="User Img">
-								<h5 class="mb-0">Sandeep Sandy</h5>
+								<h5 class="mb-0">{{ current_user.nickname }}</h5>
 								<p class="text-muted mb-0">@sandeep</p>
 								<hr>
 								<div class="d-flex justify-content-between align-items-center">
