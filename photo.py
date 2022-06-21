@@ -29,8 +29,6 @@ def file_upload():
         f = request.files['file']
         f.save('/home/dev2team/Desktop/SEA_team-project/static/uploads/'+secure_filename(f.filename))
 
-        # files = os.listdir("/home/dev2team/Desktop/SEA_team-project/static/uploads/")
-
         conn = mysql.connect()
         cursor = conn.cursor()
 
