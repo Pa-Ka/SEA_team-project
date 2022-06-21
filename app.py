@@ -83,8 +83,8 @@ Route
 def login():
     return render_template('login.html')
 
+@app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
-@login_required
 def index():
     return render_template('index.html')
 
