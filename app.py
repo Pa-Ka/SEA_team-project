@@ -138,7 +138,7 @@ def logout():
 
 @app.route("/rank")
 def rank():
-    if current_user.is_authenticated:
+    #if current_user.is_authenticated:
         conn = mysql.connect()
         cursor = conn.cursor()
         sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
@@ -146,8 +146,8 @@ def rank():
         data = cursor.fetchall()
 
         return render_template("rank.html",data=data)
-    else:
-        return render_template("index.html")
+    #else:
+        #return render_template("index.html")
 
 # flask_login에서 제공하는 login_required를 실행하기 전 사용자 정보를 조회한다.
 @login_manager.user_loader
