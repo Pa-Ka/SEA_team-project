@@ -1,7 +1,5 @@
 
-from crypt import methods
 from plistlib import UID
-import re
 from unicodedata import name
 from flask import Flask, render_template, redirect, request, jsonify, url_for, g
 from flask_cors import CORS, cross_origin
@@ -9,9 +7,6 @@ from flask_login import UserMixin, LoginManager, current_user, login_required, l
 import requests
 from flaskext.mysql import MySQL
 from datetime import datetime
-from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, IntegerField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -23,8 +18,8 @@ login_manager = LoginManager()
 
 app.config['MYSQL_DATABASE_USER'] = 'local'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'roqkf2xla'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3306
+app.config['MYSQL_DATABASE_HOST'] = 'plan.is119.kr'
+app.config['MYSQL_DATABASE_PORT'] = 3308
 app.config['MYSQL_DATABASE_DB'] = 'termDB'
 app.secret_key = b'b811+02jaabm@'
 
@@ -32,9 +27,6 @@ app.secret_key = b'b811+02jaabm@'
 mysql.init_app(app)
 login_manager.init_app(app)
 
-'''
-CLASSES
-'''
 # UserMixin 상속하여 flask_login에서 제공하는 기본 함수들 사용
 class User(UserMixin): 
     # User 객체에 저장할 사용자 정보
@@ -72,42 +64,14 @@ class User(UserMixin):
         finally:
             return result
 
-class ArticleForm(FlaskForm):
-    title = StringField('제목', validators=[DataRequired('제목은 필수입력 항목입니다.')])
-    context = TextAreaField('내용', validators=[DataRequired('내용은 필수입력 항목입니다.')])
-
-'''
-Route
-'''
-
 @app.route('/login')
 def login():
     return render_template('login.html')
 
 @app.route('/index', methods=['GET', 'POST'])
-@app.route('/')
+@login_required
 def index():
     return render_template('index.html')
-
-@app.route('/mission')
-@login_required
-def mission():
-    if current_user.is_authenticated:
-        return render_template('mission.html')
-    else:
-        return redirect(url_for('login'))
-
-@app.route('/community')
-@login_required
-def community():
-    if current_user.is_authenticated:
-        cursor = conn.cursor()
-        sql = "SELECT c.id, c.title, u.nickname, c.writedate, c.`view`  FROM community c, `user` u WHERE u.uid = c.writer"
-        cursor.execute(sql)
-        article_list = cursor.fetchall()
-        return render_template('community.html', article_list=article_list)
-    else:
-        return redirect(url_for('login'))
 
 @app.route("/callback")
 def CallBack():
@@ -158,49 +122,32 @@ def CallBack():
         login_info = User(userData)
         login_user(login_info)
     
-    return redirect(url_for('index'))
+    return redirect(url_for('index', profile_data=profile_data))
 
-@app.route('/write', methods=['GET', 'POST'])
-@login_required
-def write():
-    form = ArticleForm()
-    if request.method == "POST" and form.validate_on_submit():
-        title = form.title.data
-        context = form.context.data
-        
-        cursor = conn.cursor()
-        sql = "INSERT INTO community(writer, writedate, title, context, view) VALUES (%s, %s, %s, %s, %s)"
-        cursor.execute(sql, (current_user.uid, datetime.now(), title, context, 0))
-        conn.commit()
-        
-        return redirect(url_for('community'))
-    return render_template("write.html", form=form)
-    
 @app.route("/naver")
 def NaverLogin():
     client_id = "xneNfIal5CkgtXiMRHOo"
-    redirect_uri = "http://plan.is119.kr:7777/callback"
+    redirect_uri = "http://127.0.0.1:80/callback"
     url = f"https://nid.naver.com/oauth2.0/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     return redirect(url)
 
 @app.route("/logout")
-@login_required
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return render_template("login.html")
 
 @app.route("/rank")
-@login_required
 def rank():
-    if current_user.is_authenticated:
+    #if current_user.is_authenticated:
+        conn = mysql.connect()
         cursor = conn.cursor()
         sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
         cursor.execute(sql)
         data = cursor.fetchall()
 
         return render_template("rank.html",data=data)
-    else:
-        return redirect(url_for("login"))
+    #else:
+        #return render_template("index.html")
 
 # flask_login에서 제공하는 login_required를 실행하기 전 사용자 정보를 조회한다.
 @login_manager.user_loader

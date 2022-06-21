@@ -29,7 +29,9 @@
 	<link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
     <link href="static/assets/css/theme.css" rel="stylesheet"/>
 </head>
-<body>
+<body onload="showClock()">
+<div id="divClock" class="clock">
+</div>
 	<!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
@@ -122,14 +124,14 @@
 
 			<h4>Ranking</h4>
 
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>User</th>
 						<th>Exp</th>
-						<th>Location</th>
-						<th>Email</th>
-						<th>Congratulate</th>
+<!--						<th>Location</th>-->
+<!--						<th>Email</th>-->
+<!--						<th>Congratulate</th>-->
 					</tr>
 				</thead>
 				{% for d in data %}
@@ -137,13 +139,13 @@
 					<tr>
 						<td>
 							<div class="d-flex align-items-center">
-								{%if d[1]>=1000 %}
+								{%if d[1]>=800 %}
 									<img src="static/assets/img/chicken/level5.png" class="circle-img circle-img--small mr-2" alt="User Img">
-								{%elif (d[1]<1000) and (d[1]>=800)%}-->
-									<img src="static/assets/img/chicken/level4.png" class="circle-img circle-img--small mr-2" alt="User Img">
 								{%elif (d[1]<800) and (d[1]>=600)%}
-									<img src="static/assets/img/chicken/level3.png" class="circle-img circle-img--small mr-2" alt="User Img">
+									<img src="static/assets/img/chicken/level4.png" class="circle-img circle-img--small mr-2" alt="User Img">
 								{%elif (d[1]<600) and (d[1]>=400)%}
+									<img src="static/assets/img/chicken/level3.png" class="circle-img circle-img--small mr-2" alt="User Img">
+								{%elif (d[1]<400) and (d[1]>=200)%}
 									<img src="static/assets/img/chicken/level2.png" class="circle-img circle-img--small mr-2" alt="User Img">
 								{%else%}
 									<img src="static/assets/img/chicken/level1.png" class="circle-img circle-img&#45;&#45;small mr-2" alt="User Img">
@@ -157,7 +159,7 @@
 							</div>
 						</td>
 						<td>
-							<div class="d-flex align-items-baseline">
+							<div class="user-info__basic">
 								<h4 class="mr-1">{{d[1]}}</h4>
 							</div>
 						</td>
@@ -224,7 +226,39 @@
 		<!-- <section> close ============================-->
 		<!-- ============================================-->
 	</main>
+<!--<script type="text/javascript">-->
+<!--	  setInterval(showClock, 1000);-->
+<!--      function showClock() {-->
+<!--         var currentDate = new Date();-->
+<!--         var divClock = document.getElementById("divClock");-->
+<!--         var now=new Date('2022-06-22 00:08:18');-->
+<!--         var msg = "현재 시간: " + currentDate.getHours()+"시 "-->
+<!--         msg += currentDate.getMinutes() + "분 ";-->
+<!--         msg += currentDate.getSeconds() + "초 ";-->
+<!--         var time=currentDate.getTime();-->
+<!--         var tt=now.getTime();-->
+<!--         var start=new Date(2022,5,21);-->
+<!--         var end=new Date(2022,7,23);-->
 
+
+<!--         if(start.getTime()<currentDate.getTime() && currentDate.getTime()<end.getTime())-->
+<!--         {-->
+<!--         alert("ALARM");-->
+<!--         clearTimeout(showClock);-->
+<!--         }-->
+
+<!--         if (currentDate.getHours() >=12)-->
+<!--         {-->
+
+<!--         msg +="PM";-->
+<!--         }else{-->
+<!--         msg +="AM";-->
+<!--         }-->
+
+
+
+<!--      }-->
+<!--</script>-->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
