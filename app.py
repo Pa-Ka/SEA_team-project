@@ -112,21 +112,21 @@ def mission():
     else:    
         if current_user.permission == 0:
             cursor = conn.cursor()
-            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 and uid=`{current_user.uid}` ORDER BY c.calenderID DESC LIMIT 10"
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 and u.uid='{current_user.uid}' ORDER BY c.calenderID DESC LIMIT 10"
             cursor.execute(sql)
             mission_list = cursor.fetchall()
             cursor = conn.cursor()
-            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=1 and uid=`{current_user.uid}` ORDER BY c.calenderID DESC LIMIT 10"
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=1 and u.uid='{current_user.uid}' ORDER BY c.calenderID DESC LIMIT 10"
             cursor.execute(sql)
             complete_list = cursor.fetchall()
             return render_template('mission.html', mission_list=mission_list, complete_list=complete_list)
         else:
             cursor = conn.cursor()
-            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 ORDER BY c.calenderID DESC LIMIT 10"
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid, u.nickname FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 ORDER BY c.calenderID DESC LIMIT 10"
             cursor.execute(sql)
             mission_list = cursor.fetchall()
             cursor = conn.cursor()
-            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=1 ORDER BY c.calenderID DESC LIMIT 10"
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid, u.nickname FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=1 ORDER BY c.calenderID DESC LIMIT 10"
             cursor.execute(sql)
             complete_list = cursor.fetchall()
             return render_template('mission.html', mission_list=mission_list, complete_list=complete_list)
