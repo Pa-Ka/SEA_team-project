@@ -122,7 +122,7 @@ def mission():
 @login_required
 def mission_check():
     if current_user.permission > 0:
-        uid = request.form['user_id']
+        uid = request.form['uid']
         cal_id = request.form['calendarID']
         exp = request.form['exp']
         cursor = conn.cursor()
