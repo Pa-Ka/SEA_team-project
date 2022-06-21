@@ -81,6 +81,14 @@ def mission():
     else:
         return redirect(url_for('login'))
 
+@app.route('/community')
+@login_required
+def mission():
+    if current_user.is_authenticated:
+        return render_template('community.html')
+    else:
+        return redirect(url_for('login'))
+
 @app.route("/callback")
 def CallBack():
     params = request.args.to_dict()
