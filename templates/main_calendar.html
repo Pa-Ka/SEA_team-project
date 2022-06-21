@@ -22,38 +22,9 @@
     <script src="/static/assets/js/save_button.js"></script>
   </head>
   <body class="box-container">
-    <div class="left-nav">
-      <table class="btn_container">
-        <caption>Navigation</caption>
-        <tbody>
-        <tr><td><form action=""><button type="submit"><sapn>Mission Planner</sapn></button></form></td></tr>
-        <tr><td><form action=""><button type="submit">Calendar</button></form></td></tr>
-        <tr><td><form action=""><button type="submit">Chicken Characters</button></form></td></tr>
-        <tr><td><form action=""><button type="submit">Bulletin Board</button></form></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="left-rank">
-      <table>
-        <caption>Rank</caption>
-        <thead>
-            <tr><th>Rank</th><th>ID</th><th>EXP</th></tr>
-        </thead>
-
-        <tbody>
-         <tr><td><img src="/static/assets/img/icons/Rank01.png" alt="rank1"></td><td>a</td><td>exp</td></tr>
-         <tr><td><img src="/static/assets/img/icons/Rank02.png" alt="rank2"></td><td>b</td><td>exp</td></tr>
-         <tr><td><img src="/static/assets/img/icons/Rank03.png" alt="rank3"></td><td>c</td><td>exp</td></tr>
-        </tbody>
-        <tfoot>
-            <tr><td>User Rank</td><td>User ID</td><td>User exp</td></tr>
-        </tfoot>
-     </table>
-    </div>
     <div class="center">
         <div ng-controller="KitchenSinkCtrl as vm">
-      <h2 class="text-center">{private calendarTitle;
-        { vm.calendarTitle }}</h2>
+      <h2 class="text-center">{a vm.calendarTitle a}</h2>
 
       <div class="row">
 
@@ -122,7 +93,7 @@
 
       <h3 id="event-editor">
         Edit events
-        <button
+        <button id="add_btn"
           class="btn btn-primary pull-right"
           ng-click="vm.addEvent()">
           Add new
@@ -146,17 +117,17 @@
         <tbody>
           <tr ng-repeat="event in vm.events track by $index">
             <td>
-              <input
+              <input id = 'text_title'
                 type="text"
                 class="form-control"
                 ng-model="event.title">
             </td>
             <td>
-              <input class="form-control" colorpicker type="text" ng-model="event.color.primary">
+              <input id="prim_color" class="form-control" colorpicker type="text" ng-model="event.color.primary">
             </td>
             <td>
               <p class="input-group" style="max-width: 250px">
-                <input
+                <input id="starts_at"
                   type="text"
                   class="form-control"
                   readonly
@@ -173,7 +144,7 @@
                   </button>
                 </span>
               </p>
-              <div
+              <div id="temp"
                 uib-timepicker
                 ng-model="event.startsAt"
                 hour-step="1"
@@ -183,7 +154,7 @@
             </td>
             <td>
               <p class="input-group" style="max-width: 250px">
-                <input
+                <input id="ends_at"
                   type="text"
                   class="form-control"
                   readonly
@@ -200,7 +171,7 @@
                   </button>
                 </span>
               </p>
-              <div
+              <div id ="temp1"
                 uib-timepicker
                 ng-model="event.endsAt"
                 hour-step="1"
@@ -222,7 +193,7 @@
               </button>
               <script>
                 function save(){
-                  alert("Successfully Saved");
+                  alert_data()
                 }
               </script>
             </td>
@@ -235,6 +206,7 @@
 <div class="right-todo">
   <table>
     <caption>Today<br>TO-DO List!</caption>
+    <caption><img src="/static/assets/img/icons/note.PNG" width="540px" alt="note"></caption>
     <thead>
         <tr><th>Title</th><th>Starts at</th><th>Ends at</th></tr>
     </thead>
@@ -248,4 +220,5 @@
  </table>
 </div>
   </body>
+
 </html>

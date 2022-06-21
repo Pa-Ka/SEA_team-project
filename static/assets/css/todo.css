@@ -1,17 +1,20 @@
 .right-todo{
-    padding-left: 1%;
-    padding-right: 8%;
-    width: 30%;
-    float: right;
-    position: fixed; left : 1450px; top:100px;
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 10%;
+  width: 30%;
+  float: right;
 }
-
+.right-todo table{
+   background-color: #FFFCBB;
+}
 .right-todo caption{
     font-size: 35px;
     text-align: center;
     color: #0d0d0d;
     font-weight: bold;
-    margin-bottom: 10px;
     font-family: 'Playfair Display';
     text-shadow:2px 1px 1px rgb(109, 109, 109);
 }

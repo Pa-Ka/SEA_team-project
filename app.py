@@ -1,10 +1,10 @@
 from flask import Flask, render_template, redirect, request, url_for
 # from flaskext.mysql import MySQL
-
+from datetime import datetime
 app = Flask(__name__, static_url_path='/static')
 
-
-# mysql=MySQL()
+#
+# mysql = MySQL()
 #
 # app.config['MYSQL_DATABASE_USER'] = 'local'
 # app.config['MYSQL_DATABASE_PASSWORD'] = 'roqkf2xla'
@@ -12,21 +12,20 @@ app = Flask(__name__, static_url_path='/static')
 # app.config['MYSQL_DATABASE_PORT'] = 3308
 # app.config['MYSQL_DATABASE_DB'] = 'termDB'
 
+
 @app.route('/')
 def index():
-    return  render_template('main_calendar.html')
+    return render_template('main_calendar.html')
 
 
-# @app.route('/calender', methods=['GET'])
+# @app.route('/calender', methods=['POST'])
 # def calender():
-#     if request.method == "GET":
-#         conn = mysql.connect()
+#     if request.method == 'POST':
+#         conn = mysql.connection.cursor()
 #         cursor = conn.cursor()
-#         sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
-#         cursor.execute(sql)
-#         data = cursor.fetchall()
-#         return render_template('main_calendar.html', data=data)
 #
+#         cursor.execute(sql)
+#         return
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='80')
