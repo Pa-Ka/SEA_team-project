@@ -215,7 +215,7 @@ def write():
 @app.route("/naver")
 def NaverLogin():
     client_id = "xneNfIal5CkgtXiMRHOo"
-    redirect_uri = "http://127.0.0.1:80/callback"
+    redirect_uri = "http://plan.is119.kr:7777/callback"
     url = f"https://nid.naver.com/oauth2.0/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     return redirect(url)
 
