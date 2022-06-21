@@ -140,7 +140,13 @@ def logout():
 @login_required
 def rank():
     if current_user.is_authenticated:
-        return render_template("rank.html")
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
+        cursor.execute(sql)
+        data = cursor.fetchall()
+
+        return render_template("rank.html",data=data)
     else:
         return render_template("index.html")
 
