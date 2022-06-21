@@ -18,8 +18,8 @@ login_manager = LoginManager()
 
 app.config['MYSQL_DATABASE_USER'] = 'local'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'roqkf2xla'
-app.config['MYSQL_DATABASE_HOST'] = 'plan.is119.kr'
-app.config['MYSQL_DATABASE_PORT'] = 3308
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'termDB'
 app.secret_key = b'b811+02jaabm@'
 
@@ -69,7 +69,7 @@ def login():
     return render_template('login.html')
 
 @app.route('/index', methods=['GET', 'POST'])
-@login_required
+@app.route('/')
 def index():
     return render_template('index.html')
 
@@ -122,21 +122,22 @@ def CallBack():
         login_info = User(userData)
         login_user(login_info)
     
-    return redirect(url_for('index', profile_data=profile_data))
+    return redirect(url_for('index'))
 
 @app.route("/naver")
 def NaverLogin():
     client_id = "xneNfIal5CkgtXiMRHOo"
-    redirect_uri = "http://127.0.0.1:80/callback"
+    redirect_uri = "http://plan.is119.kr:7777/callback"
     url = f"https://nid.naver.com/oauth2.0/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     return redirect(url)
 
 @app.route("/logout")
 def logout():
     logout_user()
-    return render_template("login.html")
+    return redirect(url_for("index"))
 
 @app.route("/rank")
+@login_required
 def rank():
     if current_user.is_authenticated:
         return render_template("rank.html")

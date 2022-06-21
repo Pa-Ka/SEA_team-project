@@ -1,4 +1,4 @@
 
 function login() {
- location.href = "http://localhost:80/naver";
+ location.href = "http://plan.is119.kr:7777/naver";
 }

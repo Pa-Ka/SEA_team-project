@@ -51,7 +51,7 @@
             </ul>
             <form class="d-flex py-3 py-lg-0">
               {% if current_user.is_authenticated %}
-              <button class="btn btn-link text-1000 fw-medium order-1 order-lg-0" type="button" id="naverIdLogin_nickname" onclick="setLoginStatus();">{{current_user.nickname}}님</button>
+              <button class="btn btn-link text-1000 fw-medium order-1 order-lg-0" type="button" id="naverIdLogin_nickname" onclick="location.href='logout';">{{current_user.nickname}}님</button>
               {% else %}
               <button class="btn btn-link text-1000 fw-medium order-1 order-lg-0" type="button" onclick="location.href='login'">Sign in</button>
               <button class="btn btn-outline-danger rounded-pill order-0" type="button" onclick="location.href='login'">Sign Up</button>

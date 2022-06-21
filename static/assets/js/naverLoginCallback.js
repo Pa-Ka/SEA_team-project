@@ -1,6 +1,6 @@
 function setLoginStatus(){
         sessionStorage.clear();
-	    location.replace("http://localhost:80/");
+	location.href = "http://plan.is119.kr:7777/logout";
 }
 
 var str = JSON.parse(decodeURIComponent(window.location.search.replace(/\+/g,'')).replace(/\'/g,'"').slice(14));
