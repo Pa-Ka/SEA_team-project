@@ -76,7 +76,7 @@
                             <div class="mt-3">
                                 {% if current_user.permission > 0 %}
                                 <p class="float-end mb-0 mt-2">
-                                    <form method="post">
+                                    <form method="post" action="mission_check">
                                         <input type="hidden" name="uid" id="task{{loop.index}}" value="{{mission[6]}}">
                                         <input type="hidden" name="point" id="task{{loop.index}}" value="{{mission[4]}}">
                                         <input type="hidden" name="calenderID" id="task{{loop.index}}" value="{{mission[5]}}">
@@ -118,7 +118,7 @@
                             <div class="mt-3">
                                 {% if current_user.permission > 0 %}
                                 <p class="float-end mb-0 mt-2">
-                                    <form method="post">
+                                    <form method="post" action="mission_reject">
                                         <input type="hidden" name="uid" id="task{{loop.index}}" value="{{mission[6]}}">
                                         <input type="hidden" name="point" id="task{{loop.index}}" value="{{mission[4]}}">
                                         <input type="hidden" name="calenderID" id="task{{loop.index}}" value="{{mission[5]}}">

@@ -94,22 +94,7 @@ def mission():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     
-    if request.method == 'POST':
-        if current_user.permission > 0:
-            uid = request.form['user_id']
-            cal_id = request.form['calendarID']
-            exp = request.form['exp']
-            cursor = conn.cursor()
-            sql = f"UPDATE user SET current_exp = current_exp + {exp} WHERE `uid`={uid}"
-            cursor.execute(sql)
-            sql = f"UPDATE post SET adminchk = 1 WHERE `calenderID`={cal_id}"
-            cursor.execute(sql)
-            conn.commit()
-            
-            return redirect(url_for('mission'))
-        else:
-            return redirect(url_for('mission'))
-    else:    
+    if request.method == 'GET':
         if current_user.permission == 0:
             cursor = conn.cursor()
             sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 and u.uid='{current_user.uid}' ORDER BY c.calenderID DESC LIMIT 10"
@@ -130,7 +115,40 @@ def mission():
             cursor.execute(sql)
             complete_list = cursor.fetchall()
             return render_template('mission.html', mission_list=mission_list, complete_list=complete_list)
+    else:
+        return redirect(url_for('index'))
     
+@app.route('/mission_check', methods=['POST'])
+@login_required
+def mission_check():
+    if current_user.permission > 0:
+        uid = request.form['user_id']
+        cal_id = request.form['calendarID']
+        exp = request.form['exp']
+        cursor = conn.cursor()
+        sql = f"UPDATE user SET current_exp = current_exp + {exp} WHERE `uid`={uid}"
+        cursor.execute(sql)
+        sql = f"UPDATE post SET adminchk = 1 WHERE `calenderID`={cal_id}"
+        cursor.execute(sql)
+        conn.commit()
+        
+        return redirect(url_for('mission'))
+    
+@app.route('/mission_reject', methods=['POST'])
+@login_required
+def mission_reject():
+    if current_user.permission > 0:
+        uid = request.form['user_id']
+        cal_id = request.form['calendarID']
+        exp = request.form['exp']
+        cursor = conn.cursor()
+        sql = f"UPDATE user SET current_exp = current_exp - {exp} WHERE `uid`={uid}"
+        cursor.execute(sql)
+        sql = f"UPDATE post SET adminchk = 0 WHERE `calenderID`={cal_id}"
+        cursor.execute(sql)
+        conn.commit()
+        
+        return redirect(url_for('mission'))
 
 @app.route('/community')
 @login_required
