@@ -29,7 +29,9 @@
 	<link rel="stylesheet" type="text/css" href="static/assets/css/style.css">
     <link href="static/assets/css/theme.css" rel="stylesheet"/>
 </head>
-<body>
+<body onload="showClock()">
+<div id="divClock" class="clock">
+</div>
 	<!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
@@ -167,7 +169,39 @@
 	</section>
 	{% endif %}
 	</main>
+<!--<script type="text/javascript">-->
+<!--	  setInterval(showClock, 1000);-->
+<!--      function showClock() {-->
+<!--         var currentDate = new Date();-->
+<!--         var divClock = document.getElementById("divClock");-->
+<!--         var now=new Date('2022-06-22 00:08:18');-->
+<!--         var msg = "현재 시간: " + currentDate.getHours()+"시 "-->
+<!--         msg += currentDate.getMinutes() + "분 ";-->
+<!--         msg += currentDate.getSeconds() + "초 ";-->
+<!--         var time=currentDate.getTime();-->
+<!--         var tt=now.getTime();-->
+<!--         var start=new Date(2022,5,21);-->
+<!--         var end=new Date(2022,7,23);-->
 
+
+<!--         if(start.getTime()<currentDate.getTime() && currentDate.getTime()<end.getTime())-->
+<!--         {-->
+<!--         alert("ALARM");-->
+<!--         clearTimeout(showClock);-->
+<!--         }-->
+
+<!--         if (currentDate.getHours() >=12)-->
+<!--         {-->
+
+<!--         msg +="PM";-->
+<!--         }else{-->
+<!--         msg +="AM";-->
+<!--         }-->
+
+
+
+<!--      }-->
+<!--</script>-->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
