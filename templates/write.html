@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" context="IE=edge">
+    <meta name="viewport" context="width=device-width, initial-scale=1">
 
 
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Be Funny, Be Happy Mission Planner | Index</title>
+    <title>Be Funny, Be Happy Mission Planner | Write</title>
 
 
     <!-- ===============================================-->
@@ -20,8 +20,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="static/assets/img/favicons/favicon-16x16.png">
     <link rel="shortcut icon" type="image/x-icon" href="static/assets/img/favicons/favicon.ico">
     <link rel="manifest" href="static/assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="static/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileImage" context="static/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" context="#ffffff">
 
 
     <!-- ===============================================-->
@@ -33,13 +33,13 @@
     <body>
 
     <!-- ===============================================-->
-    <!--    Main Content-->
+    <!--    Main context-->
     <!-- ===============================================-->
     <main class="main" id="top">
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="data-navbar-on-scroll">
+        <nav class="bg-white navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="data-navbar-on-scroll">
             <div class="container"><a class="navbar-brand" href="#"><img src="static/assets/img/icons/logo.png" alt="" width="30" /><span class="text-1000 fs-1 ms-2 fw-medium">Dev2<span class="fw-bold">TEAM</span></span></a>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedcontext" aria-controls="navbarSupportedcontext" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedcontext">
                 <ul class="navbar-nav mx-auto border-bottom border-lg-bottom-0 pt-2 pt-lg-0">
                 <li class="nav-item"><a class="nav-link" href="index">소개</a></li>
                 <li class="nav-item"><a class="nav-link" href="plan">플래너</a></li>
@@ -61,10 +61,11 @@
         
         <!-- ============================================-->
       <!-- <section> begin ============================-->
-      <section class="pb-6 my-3">
-
+      <section class="bg-100 pb-6 my-3">
         <div class="container">
             <h5 class="my-3 border-bottom pb-2">글 쓰기</h5>
+             <form method="post" class="post-form my-3">
+             {{ form.csrf_token }}
             <!-- 오류표시 Start -->
             {% for field, errors in form.errors.items() %}
             <div class="alert alert-danger" role="alert">
@@ -72,21 +73,21 @@
             </div>
             {% endfor %}
             <!-- 오류표시 End -->
-            <form method="post" class="post-form my-3"></form>
-            
+           
                 <div class="form-group">
-                    <label for="subject">제목</label>
-                    <input type="text" class="form-control" name="subject" id="subject">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" name="title" id="title" value="{{ form.title.data or '' }}">
                 </div>
                 <br/>
                 <div class="form-group">
-                    <label for="content">내용</label>
-                    <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+                    <label for="context">내용</label>
+                    <textarea class="form-control" name="context" id="context" rows="5">{{ form.context.data or '' }}</textarea>
                 </div>
                 <br/>
                 <br/>
-                <button type="submit" class="btn btn-primary float-end">작성</button>
+		<button type="submit" class="btn btn-primary">작성</button>
             </form>
+            
         </div>
         <!-- end of .container-->
 
@@ -149,7 +150,7 @@
 
     </main>
     <!-- ===============================================-->
-    <!--    End of Main Content-->
+    <!--    End of Main context-->
     <!-- ===============================================-->
 
 

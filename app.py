@@ -6,14 +6,12 @@ from unicodedata import name
 from flask import Flask, render_template, redirect, request, jsonify, url_for, g
 from flask_cors import CORS, cross_origin
 from flask_login import UserMixin, LoginManager, current_user, login_required, login_user, logout_user
-from matplotlib import artist
 import requests
 from flaskext.mysql import MySQL
 from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, IntegerField, PasswordField
 from wtforms.validators import DataRequired, Length, EqualTo
-import datetime
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -33,6 +31,54 @@ app.secret_key = b'b811+02jaabm@'
 # intiallize
 mysql.init_app(app)
 login_manager.init_app(app)
+
+'''
+CLASSES
+'''
+# UserMixin 상속하여 flask_login에서 제공하는 기본 함수들 사용
+class User(UserMixin): 
+    # User 객체에 저장할 사용자 정보
+    # 그 외의 정보가 필요할 경우 추가한다. (ex. email 등)
+    def __init__(self, user):
+        self.uid = user['uid']
+        self.nickname = user['nickname']
+        self.current_exp = user['current_exp']
+        self.attendance = user['attendance']
+        self.recent = user['recent']
+        self.permission = user['permission']
+    
+    def get_id(self):
+        return str(self.uid)
+    
+    # User객체를 생성하지 않아도 사용할 수 있도록 staticmethod로 설정
+    # 사용자가 작성한 계정 정보가 맞는지 확인하거나
+    # flask_login의 user_loader에서 사용자 정보를 조회할 때 사용한다.
+    @staticmethod
+    def get_user_info(uid, user_pw=None):
+        result = dict()
+        try:
+            data_name = ['uid', 'current_exp', 'attendance', 'nickname', 'recent', 'permission']
+            cursor = conn.cursor();
+            sql = f"SELECT uid, current_exp, attendance, nickname, recent, permission FROM user WHERE uid like '{uid}'"
+            cursor.execute(sql)
+            conn.commit()
+            data = cursor.fetchall()
+            for idx, item in enumerate(data_name):
+                result[item] = data[0][idx]
+            
+        except ex:
+            result['result'] = 'fail'
+            result['data'] = ex
+        finally:
+            return result
+
+class ArticleForm(FlaskForm):
+    title = StringField('제목', validators=[DataRequired('제목은 필수입력 항목입니다.')])
+    context = TextAreaField('내용', validators=[DataRequired('내용은 필수입력 항목입니다.')])
+
+'''
+Route
+'''
 
 @app.route('/login')
 def login():
@@ -56,7 +102,7 @@ def mission():
 def community():
     if current_user.is_authenticated:
         cursor = conn.cursor()
-        sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
+        sql = "SELECT c.id, c.title, u.nickname, c.writedate, c.`view`  FROM community c, `user` u WHERE u.uid = c.writer"
         cursor.execute(sql)
         article_list = cursor.fetchall()
         return render_template('community.html', article_list=article_list)
@@ -119,16 +165,16 @@ def CallBack():
 def write():
     form = ArticleForm()
     if request.method == "POST" and form.validate_on_submit():
-        title = request.form["title"]
-        context = request.form["context"]
+        title = form.title.data
+        context = form.context.data
         
         cursor = conn.cursor()
-        sql = "INSERT INTO commuinty(writer, writedate, title, context, view) VALUES (%s, %s, %s, %s, %s, %s)"
-        cursor.execute(sql, (current_user.nickname, datetime.now(), title, context, 0))
+        sql = "INSERT INTO community(writer, writedate, title, context, view) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(sql, (current_user.uid, datetime.now(), title, context, 0))
         conn.commit()
         
         return redirect(url_for('community'))
-    return render_template("write_html", form=form)
+    return render_template("write.html", form=form)
     
 @app.route("/naver")
 def NaverLogin():
@@ -175,47 +221,3 @@ def unauthorized():
 if __name__ == "__main__":
     conn = mysql.connect()
     app.run(host='0.0.0.0', port=80)
-
-'''
-CLASSES
-'''
-# UserMixin 상속하여 flask_login에서 제공하는 기본 함수들 사용
-class User(UserMixin): 
-    # User 객체에 저장할 사용자 정보
-    # 그 외의 정보가 필요할 경우 추가한다. (ex. email 등)
-    def __init__(self, user):
-        self.uid = user['uid']
-        self.nickname = user['nickname']
-        self.current_exp = user['current_exp']
-        self.attendance = user['attendance']
-        self.recent = user['recent']
-        self.permission = user['permission']
-    
-    def get_id(self):
-        return str(self.uid)
-    
-    # User객체를 생성하지 않아도 사용할 수 있도록 staticmethod로 설정
-    # 사용자가 작성한 계정 정보가 맞는지 확인하거나
-    # flask_login의 user_loader에서 사용자 정보를 조회할 때 사용한다.
-    @staticmethod
-    def get_user_info(uid, user_pw=None):
-        result = dict()
-        try:
-            data_name = ['uid', 'current_exp', 'attendance', 'nickname', 'recent', 'permission']
-            cursor = conn.cursor();
-            sql = f"SELECT uid, current_exp, attendance, nickname, recent, permission FROM user WHERE uid like '{uid}'"
-            cursor.execute(sql)
-            conn.commit()
-            data = cursor.fetchall()
-            for idx, item in enumerate(data_name):
-                result[item] = data[0][idx]
-            
-        except ex:
-            result['result'] = 'fail'
-            result['data'] = ex
-        finally:
-            return result
-
-class ArticleForm(FlaskForm):
-    title = StringField('제목', validators=[DataRequired()])
-    context = TextAreaField('내용', validators=[DataRequired()])
