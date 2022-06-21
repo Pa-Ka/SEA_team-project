@@ -123,10 +123,10 @@ def mission():
 def mission_check():
     if current_user.permission > 0:
         uid = request.form['uid']
-        cal_id = request.form['calendarID']
+        cal_id = request.form['calenderID']
         exp = request.form['point']
         cursor = conn.cursor()
-        sql = f"UPDATE user SET current_exp = current_exp + {exp} WHERE `uid`={uid}"
+        sql = f"UPDATE user SET current_exp = current_exp + {exp} WHERE `uid`='{uid}'"
         cursor.execute(sql)
         sql = f"UPDATE post SET adminchk = 1 WHERE `calenderID`={cal_id}"
         cursor.execute(sql)
@@ -139,10 +139,10 @@ def mission_check():
 def mission_reject():
     if current_user.permission > 0:
         uid = request.form['uid']
-        cal_id = request.form['calendarID']
+        cal_id = request.form['calenderID']
         exp = request.form['point']
         cursor = conn.cursor()
-        sql = f"UPDATE user SET current_exp = current_exp - {exp} WHERE `uid`={uid}"
+        sql = f"UPDATE user SET current_exp = current_exp - {exp} WHERE `uid`='{uid}'"
         cursor.execute(sql)
         sql = f"UPDATE post SET adminchk = 0 WHERE `calenderID`={cal_id}"
         cursor.execute(sql)
