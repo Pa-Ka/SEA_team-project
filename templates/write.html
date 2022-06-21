@@ -64,33 +64,29 @@
       <section class="pb-6 my-3">
 
         <div class="container">
-            <table class='table table-hover'>
-                <thead>
-                <tr>
-                    <th>글번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>날짜</th>
-                    <th>조회수</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if article_list %}
-                    {% for article in article_list %}
-                    <tr>
-                        <th>{{ article[0] }}</th>
-                        <th>{{ article[1] }}</th>
-                        <th>{{ article[2] }}</th>
-                        <th>{{ article[3] }}</th>
-                        <th>{{ article[4] }}</th>
-                    </tr>
-                {% else %}
-                    <td class="text-center" colspan="5">등록된 게시글이 없습니다.</td>
-                {% endif %}
-                </tbody>
-            </table>
-            <hr/>
-            <a class="btn btn-info pull_right" onclick="location.href='write';">글쓰기</a>
+            <h5 class="my-3 border-bottom pb-2">글 쓰기</h5>
+            <!-- 오류표시 Start -->
+            {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger" role="alert">
+                <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            </div>
+            {% endfor %}
+            <!-- 오류표시 End -->
+            <form method="post" class="post-form my-3"></form>
+            
+                <div class="form-group">
+                    <label for="subject">제목</label>
+                    <input type="text" class="form-control" name="subject" id="subject">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+                </div>
+                <br/>
+                <br/>
+                <button type="submit" class="btn btn-primary float-end">작성</button>
+            </form>
         </div>
         <!-- end of .container-->
 
