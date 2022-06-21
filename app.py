@@ -73,6 +73,62 @@ def login():
 def index():
     return render_template('index.html')
 
+@app.route('/mission', methods=['GET', 'POST'])
+@login_required
+def mission():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        if current_user.permission > 0:
+            uid = request.form['user_id']
+            cal_id = request.form['calendarID']
+            exp = request.form['exp']
+            cursor = conn.cursor()
+            sql = f"UPDATE user SET current_exp = current_exp + {exp} WHERE `uid`={uid}"
+            cursor.execute(sql)
+            sql = f"UPDATE post SET adminchk = 1 WHERE `calenderID`={cal_id}"
+            cursor.execute(sql)
+            conn.commit()
+            
+            return redirect(url_for('mission'))
+        else:
+            return redirect(url_for('mission'))
+    else:    
+        if current_user.permission == 0:
+            cursor = conn.cursor()
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 and uid=`{current_user.uid}` ORDER BY c.calenderID DESC LIMIT 10"
+            cursor.execute(sql)
+            mission_list = cursor.fetchall()
+            cursor = conn.cursor()
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=1 and uid=`{current_user.uid}` ORDER BY c.calenderID DESC LIMIT 10"
+            cursor.execute(sql)
+            complete_list = cursor.fetchall()
+            return render_template('mission.html', mission_list=mission_list, complete_list=complete_list)
+        else:
+            cursor = conn.cursor()
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=0 ORDER BY c.calenderID DESC LIMIT 10"
+            cursor.execute(sql)
+            mission_list = cursor.fetchall()
+            cursor = conn.cursor()
+            sql = f"SELECT m.title, m.`description`, imgurl, p.writeDate, m.exp, c.calenderID, u.uid FROM post p, `user` u, calender c, mission m WHERE uid=c.userID and `status`=1 and adminchk=1 ORDER BY c.calenderID DESC LIMIT 10"
+            cursor.execute(sql)
+            complete_list = cursor.fetchall()
+            return render_template('mission.html', mission_list=mission_list, complete_list=complete_list)
+    
+
+@app.route('/community')
+@login_required
+def community():
+    if current_user.is_authenticated:
+        cursor = conn.cursor()
+        sql = "SELECT c.id, c.title, u.nickname, c.writedate, c.`view`  FROM community c, `user` u WHERE u.uid = c.writer"
+        cursor.execute(sql)
+        article_list = cursor.fetchall()
+        return render_template('community.html', article_list=article_list)
+    else:
+        return redirect(url_for('login'))
+
 @app.route("/callback")
 def CallBack():
     params = request.args.to_dict()
@@ -110,6 +166,7 @@ def CallBack():
         sql = "INSERT INTO user(uid, current_exp, attendance, nickname, recent, permission) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.execute(sql, (userData['uid'], userData['current_exp'], userData['attendance'], userData['nickname'], userData['recent'], userData['permission']))
         conn.commit()
+        profile_data['userData'] = userData
         login_info = User(profile_data['userData'])
         login_user(login_info)
     else :
@@ -141,7 +198,7 @@ def rank():
     #if current_user.is_authenticated:
         conn = mysql.connect()
         cursor = conn.cursor()
-        sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
+        sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 10"
         cursor.execute(sql)
         data = cursor.fetchall()
 
