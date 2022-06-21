@@ -138,9 +138,9 @@ def mission_check():
 @login_required
 def mission_reject():
     if current_user.permission > 0:
-        uid = request.form['user_id']
+        uid = request.form['uid']
         cal_id = request.form['calendarID']
-        exp = request.form['exp']
+        exp = request.form['point']
         cursor = conn.cursor()
         sql = f"UPDATE user SET current_exp = current_exp - {exp} WHERE `uid`={uid}"
         cursor.execute(sql)
