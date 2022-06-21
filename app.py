@@ -73,6 +73,14 @@ def login():
 def index():
     return render_template('index.html')
 
+@app.route('/mission')
+@login_required
+def mission():
+    if current_user.is_authenticated:
+        return render_template('mission.html')
+    else:
+        return redirect(url_for('login'))
+
 @app.route("/callback")
 def CallBack():
     params = request.args.to_dict()
@@ -132,6 +140,7 @@ def NaverLogin():
     return redirect(url)
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))
@@ -140,7 +149,6 @@ def logout():
 @login_required
 def rank():
     if current_user.is_authenticated:
-        conn = mysql.connect()
         cursor = conn.cursor()
         sql = "SELECT nickname,current_exp FROM user ORDER BY current_exp DESC LIMIT 5"
         cursor.execute(sql)
@@ -148,7 +156,7 @@ def rank():
 
         return render_template("rank.html",data=data)
     else:
-        return render_template("index.html")
+        return redirect(url_for("login"))
 
 # flask_login에서 제공하는 login_required를 실행하기 전 사용자 정보를 조회한다.
 @login_manager.user_loader
