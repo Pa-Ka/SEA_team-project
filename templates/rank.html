@@ -67,7 +67,7 @@
 						</div>
 						<div class="leaderboard-card__body">
 							<div class="text-center">
-								<img src="static/assets/img/users/user2.jpg" class="circle-img mb-2" alt="User Img">
+								<img src="static/assets/img/bronze.png" class="circle-img mb-2" alt="User Img">
 								<h5 class="mb-0">{{data[2][0]}}</h5>
 								<hr>
 								<div class="d-flex justify-content-between align-items-center">
@@ -84,7 +84,7 @@
 						</div>
 						<div class="leaderboard-card__body">
 							<div class="text-center">
-								<img src="static/assets/img/users/user1.jpg" class="circle-img mb-2" alt="User Img">
+								<img src="static/assets/img/gold.png" class="circle-img mb-2" alt="User Img">
 								<h5 class="mb-0">{{data[0][0]}}</h5>
 
 								<hr>
@@ -102,7 +102,7 @@
 						</div>
 						<div class="leaderboard-card__body">
 							<div class="text-center">
-								<img src="static/assets/img/users/user3.jpg" class="circle-img mb-2" alt="User Img">
+								<img src="static/assets/img/silver.png" class="circle-img mb-2" alt="User Img">
 								<h5 class="mb-0">{{data[1][0]}}</h5>
 
 								<hr>
@@ -129,15 +129,27 @@
 					</tr>
 				</thead>
 				{% for d in data %}
-				{% if d[1]>
 				<tbody>
 					<tr>
 						<td>
 							<div class="d-flex align-items-center">
-								<img src="static/assets/img/users/user1.jpg" class="circle-img circle-img--small mr-2" alt="User Img">
+								{%if d[1]>=1000 %}
+									<img src="static/assets/img/chicken/level5.png" class="circle-img circle-img--small mr-2" alt="User Img">
+								{%elif (d[1]<1000) and (d[1]>=800)%}-->
+									<img src="static/assets/img/chicken/level4.png" class="circle-img circle-img--small mr-2" alt="User Img">
+								{%elif (d[1]<800) and (d[1]>=600)%}
+									<img src="static/assets/img/chicken/level3.png" class="circle-img circle-img--small mr-2" alt="User Img">
+								{%elif (d[1]<600) and (d[1]>=400)%}
+									<img src="static/assets/img/chicken/level2.png" class="circle-img circle-img--small mr-2" alt="User Img">
+								{%else%}
+									<img src="static/assets/img/chicken/level1.png" class="circle-img circle-img&#45;&#45;small mr-2" alt="User Img">
+
+								{% endif %}
+<!--								<img src="static/assets/img/users/user1.jpg" class="circle-img circle-img&#45;&#45;small mr-2" alt="User Img">-->
 								<div class="user-info__basic">
 									<h5 class="mb-0">{{d[0]}}</h5>
 								</div>
+
 							</div>
 						</td>
 						<td>
