@@ -155,7 +155,7 @@ def mission_reject():
 def community():
     if current_user.is_authenticated:
         cursor = conn.cursor()
-        sql = "SELECT c.id, c.title, u.nickname, c.writedate, c.`view`  FROM community c, `user` u WHERE u.uid = c.writer"
+        sql = "SELECT c.id, c.title, u.nickname, c.writedate, c.`view`  FROM community c, `user` u WHERE u.uid = c.writer ORDER BY c.id DESC"
         cursor.execute(sql)
         article_list = cursor.fetchall()
         return render_template('community.html', article_list=article_list)
