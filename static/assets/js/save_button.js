@@ -1,4 +1,5 @@
 function getTitle(current_select){
+    console.log( document.getElementById(current_select))
     const title = document.getElementById(current_select).childNodes[1].childNodes[1].value;
     return title
 }
@@ -24,7 +25,7 @@ function starts_at(current_select){
     }
     const starts_second = "00";
     console.log("sh" +starts_second);
-    console.log("first:"+trans_month(trans_starts_at)+""+starts_hour+":"+starts_minute+":"+starts_second)
+    // console.log("first:"+trans_month(trans_starts_at)+""+starts_hour+":"+starts_minute+":"+starts_second)
     return (trans_month(trans_starts_at)+" "+starts_hour+":"+starts_minute+":"+starts_second);
 }
 
@@ -35,12 +36,12 @@ function ends_at(current_select){
     const ends_minute = document.getElementById(current_select).childNodes[7].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[5].childNodes[1].value
     const ends_am_pm = document.getElementById(current_select).childNodes[7].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[11].childNodes[0].innerHTML
     const ends_second = "00"
-    if (ends_am_pm == "PM"){
-        ends_hour = parseInt(ends_hour) +12;
-    }
-    else{
-        ends_hour = parseInt(ends_hour) -12;
-    }
+    // if (ends_am_pm == "PM"){
+    //     ends_hour = parseInt(ends_hour) +12;
+    // }
+    // else{
+    //     ends_hour = parseInt(ends_hour) -12;
+    // }
     console.log("ends" + trans_ends_at)
     return (trans_month(trans_ends_at)+" "+ ends_hour+":"+ends_minute+":"+ends_second);
 }
@@ -50,6 +51,7 @@ function alert_data(current_select){
     $(".btn-save").on('click', function(e) {
         if (count == 0) {
             current_select = e.target.parentNode.parentNode.id;
+            console.log("CUR:"+current_select);
             alert("Successfully Saved!\n"+"Title :" + getTitle(current_select) + "\n" + "Color : " + getColor(current_select) + "\n" + "Starts at :" + starts_at(current_select) + "\n" + "Ends at :" + ends_at(current_select));
         }
         count = count + 1;
@@ -59,12 +61,11 @@ function alert_data(current_select){
 const month_str = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 const month_int = ['01','02','03','04','05','06','07','08','09','10','11','12']
 function trans_month(month){
-    console.log("1  " +month)
     for(let i =0; i<12; i++){
         if(month.includes(month_str[i])==true){
-            console.log("HI : 2"+month.substring(1,9));
             const res = month.substring(month.indexOf(month_str[i], month_str[i].length)).replace(month_str[i], month_int[i]);
-            return (month.substring(0,5)+res+month.substring(0, 10));
+            //return (month.substring(0,5)+res+month.substring(0, 10));
+            return month.substring(0,5) +  res;
         }
     }
 }
@@ -86,8 +87,12 @@ function select_pmam(time){
         return 'PM';
     }
 }
+let tmp = 0
 function insert_data(id){
+        tmp = tmp + 1;
+        console.log("tmp : " + tmp.toString())
       let title = document.getElementById(id).childNodes[1].childNodes[1];
+      console.log(data[id]);
       title.value = data[id][0]
       let color = document.getElementById(id).childNodes[3].childNodes[1];
       color.value = data[id][1]
@@ -125,27 +130,35 @@ let totalcount = data.length, index_num = 0, current_select = 0;
 
 
 //클릭 totalcount 횟수 만큼
-for(let i=0; i<totalcount; i++){
-        $(document).ready(function(){
-      $('#add_btn').trigger("click");
-    });
-}
+// for(let i=0; i<totalcount; i++){
+//         $(document).ready(function(){
+//       $('#add_btn').trigger("click");
+//     });
+// }
 //각 selector 마다 id 할당
 
 $(document).ready(function(){
       $('.index_temp').each(function(i, obj) {
+        console.log("i: "+i);
+        console.log("obj: "+obj);
+
     obj.id = i;
     insert_data(obj.id)
-    // console.log(obj.id);
+    console.log(obj.id);
+    console.log("obj : " + obj);
     });
 });
 
 
 function addnewbtn(){
+    console.log("test")
        $(document).ready(function(){
       $('.index_temp').each(function(i, obj) {
-          if (i == totalcount){
-           obj.id = i;
+          //console.log(i.toString())
+          if (i +1 == totalcount){
+              console.log("test2")
+            obj.id = i;
+              console.log(obj.id)
            totalcount = totalcount+1;
            $(".btn-save").on('click', function(e){
            current_select = e.target.parentNode.parentNode.id
@@ -154,12 +167,14 @@ function addnewbtn(){
     // console.log(obj.id);
     });
 });
+
 }
 
 
 $(document).ready(function(){
         $(".btn-save").on('click', function(e){
            current_select = e.target.parentNode.parentNode.id
+            console.log("cursel: " +current_select)
         });
 });
 

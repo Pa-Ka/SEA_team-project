@@ -43,6 +43,17 @@ angular
               });
     }
 
+      vm.addEvent = function() {
+          console.log("pushed!")
+      vm.events.push({
+        title: 'New event Test',
+        startsAt: moment().startOf('day').toDate(),
+        endsAt: moment().endOf('day').toDate(),
+        color: calendarConfig.colorTypes.important,
+        draggable: true,
+        resizable: true
+      });
+    };
       // console.log(vm);
 
 
