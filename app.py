@@ -1,31 +1,72 @@
-from flask import Flask, render_template, redirect, request, url_for
-# from flaskext.mysql import MySQL
+from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flaskext.mysql import MySQL
+import json
 from datetime import datetime
 app = Flask(__name__, static_url_path='/static')
 
-#
-# mysql = MySQL()
-#
-# app.config['MYSQL_DATABASE_USER'] = 'local'
-# app.config['MYSQL_DATABASE_PASSWORD'] = 'roqkf2xla'
-# app.config['MYSQL_DATABASE_HOST'] = 'plan.is119.kr'
-# app.config['MYSQL_DATABASE_PORT'] = 3308
-# app.config['MYSQL_DATABASE_DB'] = 'termDB'
+
+mysql = MySQL()
+
+app.config['MYSQL_DATABASE_USER'] = 'local'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'roqkf2xla'
+app.config['MYSQL_DATABASE_HOST'] = 'plan.is119.kr'
+app.config['MYSQL_DATABASE_PORT'] = 3308
+app.config['MYSQL_DATABASE_DB'] = 'termDB'
 
 
-@app.route('/')
+mysql.init_app(app)
+
+dt_now = datetime.now().date()
+# print(dt_now)
+
+@app.route('/' , methods=["GET", "POST"])
 def index():
-    return render_template('main_calendar.html')
+    if request.method == "POST":
+        jsonData = request.get_json()
 
+        print(type(jsonData['calenderID'])
+            ,type(jsonData['title'])
+            ,type(jsonData['color'])
+            ,type(jsonData['startTime'])
+            ,type(jsonData['endTime']))
+        try:
+            # calenderID = jsonData['calenderID']
+            userID = "1FTLlxB_1PCOpadmWdIvQ54-qaJcT-Mb5dmHp1lI93U"
+            missionID = 1
+            status = 1
+            title = jsonData['title']
+            color = jsonData['color']
+            startTime = jsonData['startTime']
+            endTime = jsonData['endTime']
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            sql = "INSERT INTO calender(userID, missionID, title, color, `status`, startTime, endTime) VALUES (%s, %s, %s, %s ,%s, %s, %s)"
+            cursor.execute(sql,(userID, missionID, title, color, status, startTime, endTime))
+            conn.commit()
 
-# @app.route('/calender', methods=['POST'])
-# def calender():
-#     if request.method == 'POST':
-#         conn = mysql.connection.cursor()
-#         cursor = conn.cursor()
+        except:
+            conn.rollback()
+    else:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT title, color, left(startTime,16), left(endTime, 16) FROM calender"
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        return render_template('main_calendar.html',  data=rows)
+    return 'ok'
+
+# @app.route('/delete')
+# def delete(uid):
+#     global conn
+#     conn = mysql.connect()
+#     cursor = conn.cursor()
+#     sql = "delete from calendar where calenderID = "
+#     cursor.execute(sql,(uid))
+#     conn.commit()
 #
-#         cursor.execute(sql)
-#         return
+#     return redirect(url_for("board"))
+
+ # WHERE startTime LIKE CONCAT('%',date(now()),'%')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='80')
