@@ -88,6 +88,39 @@ def login():
 def index():
     return render_template('index.html')
 
+
+@app.route('/manage', methods=['GET', 'POST'])
+@login_required
+def mission():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    if current_user.permission != 0:
+        return redirect(url_for('index'))
+
+    global conn
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "SELECT nickname FROM user"
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+
+    for i in range(len(rows)):
+        print(rows[i][0])
+
+    return render_template('manage.html', rows = rows)
+
+@app.route('/delete/<uid>')
+def delete(uid):
+    global conn
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "delete from user where nickname = %s"
+    cursor.execute(sql,(uid))
+    conn.commit()
+
+    return redirect(url_for("manage"))
+
 @app.route('/mission', methods=['GET', 'POST'])
 @login_required
 def mission():
