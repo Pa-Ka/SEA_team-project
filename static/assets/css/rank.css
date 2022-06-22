@@ -1,0 +1,43 @@
+.left-rank{
+    padding-left: 5%;
+    padding-right: 1%;
+    width: 20%;
+    position: fixed; top:550px;
+}
+
+.left-rank caption{
+    font-size: 35px;
+    text-align: center;
+    color: #0d0d0d;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display';
+    text-shadow:2px 1px 1px rgb(109, 109, 109);
+}
+
+.left-rank thead{
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: rgb(0, 0, 0);
+    border-bottom: 3px solid rgb(153, 153, 153);
+}
+
+.left-rank td{
+    border: none;
+    text-align: center;
+    height: 50px;
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+
+.left-rank img{
+    max-width: 120%;
+    max-height: 120%;
+    object-fit: contain;
+}
+
+
+

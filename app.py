@@ -304,7 +304,3 @@ def user_loader(user_id):
 def unauthorized():
     # 로그인되어 있지 않은 사용자일 경우 첫화면으로 이동
     return redirect("/login")
-
-if __name__ == "__main__":
-    conn = mysql.connect()
-    app.run(host='0.0.0.0', port=80)

@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="WEB_MODULE" version="4">
+<module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/temp" />
-      <excludeFolder url="file://$MODULE_DIR$/.tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/tmp" />
-    </content>
+    <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="moment" level="application" />
+    <orderEntry type="library" name="angular" level="application" />
+    <orderEntry type="library" name="interactjs" level="application" />
+    <orderEntry type="library" name="angular-animate" level="application" />
+    <orderEntry type="library" name="angular-ui-bootstrap" level="application" />
+    <orderEntry type="library" name="rrule" level="application" />
+    <orderEntry type="library" name="angular-bootstrap-colorpicker" level="application" />
+    <orderEntry type="library" name="angular-bootstrap-calendar" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
-</module>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/templates" />
+      </list>
+    </option>
+  </component>
