@@ -162,6 +162,51 @@ def community():
     else:
         return redirect(url_for('login'))
 
+@app.route('/plan' , methods=["GET", "POST"])
+@login_required
+def plan():
+    if request.method == "POST":
+        jsonData = request.get_json()
+
+        print(
+            jsonData['title']
+            ,jsonData['color']
+            ,jsonData['startTime']
+            ,jsonData['endTime'])
+        try:
+            # calenderID = jsonData['calenderID']
+            userID = "1FTLlxB_1PCOpadmWdIvQ54-qaJcT-Mb5dmHp1lI93U"
+            missionID = 1
+            status = 1
+            title = jsonData['title']
+            color = jsonData['color']
+            startTime = jsonData['startTime']
+            endTime = jsonData['endTime']
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            sql = "INSERT INTO calender(userID, missionID, title, color, `status`, startTime, endTime) VALUES (%s, %s, %s, %s ,%s, %s, %s)"
+            cursor.execute(sql,(userID, missionID, title, color, status, startTime, endTime))
+            conn.commit()
+
+        except:
+            conn.rollback()
+    else:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT title, color, left(startTime,16), left(endTime, 16) FROM calender"
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT title, color, left(startTime,16), left(endTime, 16) FROM calender WHERE startTime LIKE CONCAT('%',date(now()),'%')"
+        cursor.execute(sql)
+        rowss = cursor.fetchall()
+        return render_template('main_calendar.html', data=rows, cal=rowss)
+
+    return 'ok'
+
 @app.route("/callback")
 def CallBack():
     params = request.args.to_dict()
@@ -212,7 +257,7 @@ def CallBack():
         login_info = User(userData)
         login_user(login_info)
     
-    return redirect(url_for('index', profile_data=profile_data))
+    return redirect(url_for('index'))
 
 @app.route('/write', methods=['GET', 'POST'])
 @login_required

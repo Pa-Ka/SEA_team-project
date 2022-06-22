@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html ng-app="mwl.calendar.docs" lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Be Funny, Be Happy Mission Planner | Index</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="static/assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="static/assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="static/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://unpkg.com/moment@2.17.1"></script>
+    <script src="https://unpkg.com/interactjs@1"></script>
+    <script src="https://unpkg.com/angular@1.6.6/angular.js"></script>
+    <script src="https://unpkg.com/angular-animate@1.6.6/angular-animate.js"></script>
+    <script src="https://unpkg.com/angular-ui-bootstrap@2/dist/ui-bootstrap-tpls.js"></script>
+    <script src="https://unpkg.com/rrule@2"></script>
+    <script src="https://unpkg.com/angular-bootstrap-colorpicker@3"></script>
+    <script src="https://unpkg.com/angular-bootstrap-calendar"></script>
+    <link rel="stylesheet" href="/static/assets/css/calendar.css">
+    <link rel="stylesheet" href="/static/assets/css/Navigation.css">
+    <link rel="stylesheet" href="/static/assets/css/rank.css">
+    <link rel="stylesheet" href="/static/assets/css/todo.css">
+    <link href="https://unpkg.com/bootstrap@3/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="https://unpkg.com/angular-bootstrap-colorpicker@3/css/colorpicker.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css" rel="stylesheet">
+    <link href="static/assets/css/theme.css" rel="stylesheet" />
+    <script>
+    var data = JSON.parse('{{ data | tojson | safe}}');
+    var cal = JSON.parse('{{ cal | tojson | safe}}');
+</script>
+    <script src="/static/assets/js/example.js"></script>
+    <script src="/static/assets/js/helpers.js"></script>
+    <script src="/static/assets/js/save_button.js"></script>
+  </head>
+  <nav class="bg-white navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="data-navbar-on-scroll">
+            <div class="container"><a class="navbar-brand" href="#"><img src="static/assets/img/icons/logo.png" alt="" width="30" /><span class="text-1000 fs-1 ms-2 fw-medium">Dev2<span class="fw-bold">TEAM</span></span></a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto border-bottom border-lg-bottom-0 pt-2 pt-lg-0">
+                <li class="nav-item"><a class="nav-link" href="index">소개</a></li>
+                <li class="nav-item"><a class="nav-link active active fw-bold" aria-current="page" href="plan">플래너</a></li>
+                <li class="nav-item"><a class="nav-link" href="mission">미션 확인</a></li>
+                <li class="nav-item"><a class="nav-link" href="community">커뮤니티</a></li>
+                <li class="nav-item"><a class="nav-link" href="rank">랭킹</a></li>
+                </ul>
+                <form class="d-flex py-3 py-lg-0">
+                {% if current_user.is_authenticated %}
+                <button class="btn btn-link text-1000 fw-medium order-1 order-lg-0" type="button" id="naverIdLogin_nickname" onclick="location.href='logout';">{{current_user.nickname}}님</button>
+                {% else %}
+                <button class="btn btn-link text-1000 fw-medium order-1 order-lg-0" type="button" onclick="location.href='login'">Sign in</button>
+                <button class="btn btn-outline-danger rounded-pill order-0" type="button" onclick="location.href='login'">Sign Up</button>
+                {% endif %}
+                </form>
+            </div>
+            </div>
+        </nav>
+<section class="bg-100 pb-6 my-3">
+  <body class="box-container">
+    <div class="center">
+        <div ng-controller="KitchenSinkCtrl as vm">
+      <h2 class="text-center">{a vm.calendarTitle a}</h2>
+
+      <div class="row" id="drag">
+
+        <div class="col-md-6 text-center">
+          <div class="btn-group">
+
+            <button
+              class="btn btn-primary"
+              mwl-date-modifier
+              date="vm.viewDate"
+              decrement="vm.calendarView"
+              ng-click="vm.cellIsOpen = false">
+              Previous
+            </button>
+            <button
+              class="btn btn-default"
+              mwl-date-modifier
+              date="vm.viewDate"
+              set-to-today
+              ng-click="vm.cellIsOpen = false">
+              Today
+            </button>
+            <button
+              class="btn btn-primary"
+              mwl-date-modifier
+              date="vm.viewDate"
+              increment="vm.calendarView"
+              ng-click="vm.cellIsOpen = false">
+              Next
+            </button>
+          </div>
+        </div>
+
+        <br class="visible-xs visible-sm">
+
+        <div class="col-md-6 text-center">
+          <div class="btn-group">
+            <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'year'" ng-click="vm.cellIsOpen = false">Year</label>
+            <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'month'" ng-click="vm.cellIsOpen = false">Month</label>
+            <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'week'" ng-click="vm.cellIsOpen = false">Week</label>
+            <label class="btn btn-primary" ng-model="vm.calendarView" uib-btn-radio="'day'" ng-click="vm.cellIsOpen = false">Day</label>
+          </div>
+        </div>
+
+      </div>
+
+      <br>
+
+      <mwl-calendar id="tt"
+        events="vm.events"
+        view="vm.calendarView"
+        view-title="vm.calendarTitle"
+        view-date="vm.viewDate"
+        on-event-click="vm.eventClicked(calendarEvent)"
+        on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+        cell-is-open="vm.cellIsOpen"
+        day-view-start="00:00"
+        day-view-end="23:59"
+        day-view-split="60"
+        cell-modifier="vm.modifyCell(calendarCell)"
+        cell-auto-open-disabled="true"
+        on-timespan-click="vm.timespanClicked(calendarDate, calendarCell)">
+      </mwl-calendar>
+
+      <br><br><br>
+
+      <h3 id="event-editor">
+        Edit events
+        <button id="add_btn"
+          class="btn btn-primary pull-right"
+          ng-click="vm.addEvent()"
+        onclick=addnewbtn()>
+          Add new
+        </button>
+        <div class="clearfix"></div>
+      </h3>
+
+      <table class="table table-bordered">
+
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Primary color</th>
+            <th>Starts at</th>
+            <th>Ends at</th>
+            <th>Remove</th>
+            <th>Save</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="index_temp" ng-repeat="event in vm.events track by $index">
+            <td>
+              <input id = 'text_title'
+                type="text"
+                class="form-control"
+                ng-model="event.title">
+            </td>
+            <td>
+              <input id="prim_color" class="form-control" colorpicker type="text" ng-model="event.color.primary">
+            </td>
+            <td>
+              <p class="input-group" style="max-width: 250px">
+                <input id="starts_at"
+                  type="text"
+                  class="form-control"
+                  readonly
+                  uib-datepicker-popup="dd MMMM yyyy"
+                  ng-model="event.startsAt"
+                  is-open="event.startOpen"
+                  close-text="Close" >
+                <span class="input-group-btn">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="vm.toggle($event, 'startOpen', event)">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </p>
+              <div id="temp"
+                uib-timepicker
+                ng-model="event.startsAt"
+                hour-step="1"
+                minute-step="1"
+                show-meridian="true">
+              </div>
+            </td>
+            <td>
+              <p class="input-group" style="max-width: 250px">
+                <input id="ends_at"
+                  type="text"
+                  class="form-control"
+                  readonly
+                  uib-datepicker-popup="dd MMMM yyyy"
+                  ng-model="event.endsAt"
+                  is-open="event.endOpen"
+                  close-text="Close">
+                <span class="input-group-btn">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="vm.toggle($event, 'endOpen', event)">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </p>
+              <div id ="temp1"
+                uib-timepicker
+                ng-model="event.endsAt"
+                hour-step="1"
+                minute-step="1"
+                show-meridian="true">
+              </div>
+            </td>
+            <td>
+              <button
+                class="btn btn-danger"
+                ng-click="vm.events.splice($index, 1)"
+                onclick = "delete_btn()">
+                Delete
+                <script>
+                  function delete_btn() {
+                      deletedb();
+                  }
+                </script>
+              </button>
+            </td>
+            <td>
+              <button onclick="save()"
+                class="btn btn-save">
+                Save
+              </button>
+              <script>
+                function save(){
+                  //current_select = totalcount;
+                  //console.log("curselHtml: " + current_select)
+                  alert_data(current_select)
+                  $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: '/',
+                    data :JSON.stringify( {title : getTitle(current_select), color : getColor(current_select), startTime : starts_at(current_select), endTime : ends_at(current_select) }),
+                    success : {
+                    }, error : function(result){
+                      console.log(result);
+                    }
+                  });
+                }
+              </script>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+</div>
+<div class="right-todo">
+  <table>
+    <caption>Today<br>TO-DO List!</caption>
+    <caption><img src="/static/assets/img/icons/note.PNG" width="540px" alt="note"></caption>
+    <thead>
+        <tr><th>Title</th><th>Starts at</th><th>Ends at</th></tr>
+    </thead>
+    <tbody>
+    {% for d in cal %}
+    <tr><td>{{d[0]}}</td><td>{{d[2]}}</td><td>{{d[3]}}</td></tr>>
+    {% endfor %}
+
+ </table>
+</div>
+</section>
+  </body>
+<!-- jinja -->
+
+</html>
