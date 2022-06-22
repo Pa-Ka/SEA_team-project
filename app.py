@@ -52,19 +52,26 @@ def index():
         sql = "SELECT title, color, left(startTime,16), left(endTime, 16) FROM calender"
         cursor.execute(sql)
         rows = cursor.fetchall()
-        return render_template('main_calendar.html',  data=rows)
+
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT title, color, left(startTime,16), left(endTime, 16) FROM calender WHERE startTime LIKE CONCAT('%',date(now()),'%')"
+        cursor.execute(sql)
+        rowss = cursor.fetchall()
+        return render_template('main_calendar.html', data=rows, cal=rowss)
+
     return 'ok'
 
-# @app.route('/delete')
-# def delete(uid):
-#     global conn
-#     conn = mysql.connect()
-#     cursor = conn.cursor()
-#     sql = "delete from calendar where calenderID = "
-#     cursor.execute(sql,(uid))
-#     conn.commit()
-#
-#     return redirect(url_for("board"))
+@app.route('/')
+def delete(uid):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "SELECT title, color, left(startTime,16), left(endTime, 16) FROM calender WHERE startTime LIKE CONCAT('%',date(now()),'%')"
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    return render_template('main_calendar.html', cal=rows)
+
 
  # WHERE startTime LIKE CONCAT('%',date(now()),'%')
 

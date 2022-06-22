@@ -22,22 +22,29 @@ angular
         alert.show('Deleted', args.calendarEvent);
       }
     }];
+
     vm.events = [
-      
     ];
 
     vm.cellIsOpen = true;
 
-    vm.addEvent = function() {
-      vm.events.push({
-        title: 'New event',
-        startsAt: moment().startOf('day').toDate(),
-        endsAt: moment().endOf('day').toDate(),
-        color: calendarConfig.colorTypes.important,
-        draggable: true,
-        resizable: true
-      });
-    };
+      for(let i=0; i<data.length; i++){
+          // console.log(data[i]);
+          let tmpColor = {};
+          tmpColor['primary'] = data[i][1];
+          tmpColor['secondary'] = data[i][1];
+              vm.events.push({
+                  title: data[i][0],
+                  startsAt: new Date(data[i][2]),
+                  endsAt : new Date(data[i][3]),
+                  color : tmpColor,
+                  draggable: true,
+                  resizable: true
+              });
+    }
+
+      // console.log(vm);
+
 
     vm.eventClicked = function(event) {
       alert.show('Clicked', event);

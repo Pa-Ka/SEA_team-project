@@ -10,7 +10,9 @@ function getColor(current_select){
 
 function starts_at(current_select){
     const starts_at = document.getElementById(current_select).childNodes[5].childNodes[1].childNodes[1].value;
+
     const trans_starts_at = starts_at.split(" ").reverse().join("-")
+    console.log("x: " +trans_starts_at)
     let starts_hour = document.getElementById(current_select).childNodes[5].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[1].childNodes[1].value
     const starts_minute = document.getElementById(current_select).childNodes[5].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[5].childNodes[1].value
     const starts_am_pm = document.getElementById(current_select).childNodes[5].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[11].childNodes[0].innerHTML
@@ -18,11 +20,12 @@ function starts_at(current_select){
         starts_hour = parseInt(starts_hour) +12;
     }
     else if (starts_am_pm == "AM" && starts_hour == 12){
-        starts_hour = "00"
+        starts_hour = "00";
     }
-    const starts_second = "00"
-
-    return (trans_month(trans_starts_at)+" "+starts_hour+":"+starts_minute+":"+starts_second)
+    const starts_second = "00";
+    console.log("sh" +starts_second);
+    console.log("first:"+trans_month(trans_starts_at)+""+starts_hour+":"+starts_minute+":"+starts_second)
+    return (trans_month(trans_starts_at)+" "+starts_hour+":"+starts_minute+":"+starts_second);
 }
 
 function ends_at(current_select){
@@ -32,22 +35,22 @@ function ends_at(current_select){
     const ends_minute = document.getElementById(current_select).childNodes[7].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[5].childNodes[1].value
     const ends_am_pm = document.getElementById(current_select).childNodes[7].childNodes[3].childNodes[0].childNodes[1].childNodes[3].childNodes[11].childNodes[0].innerHTML
     const ends_second = "00"
-    console.log(ends_am_pm);
     if (ends_am_pm == "PM"){
         ends_hour = parseInt(ends_hour) +12;
     }
     else{
         ends_hour = parseInt(ends_hour) -12;
     }
-    return (trans_month(trans_ends_at)+" "+ ends_hour+":"+ends_minute+":"+ends_second)
+    console.log("ends" + trans_ends_at)
+    return (trans_month(trans_ends_at)+" "+ ends_hour+":"+ends_minute+":"+ends_second);
 }
 
 function alert_data(current_select){
     let count = 0
     $(".btn-save").on('click', function(e) {
         if (count == 0) {
-            current_select = e.target.parentNode.parentNode.id
-            alert("Successfully Saved!\n"+"Title :" + getTitle(current_select) + "\n" + "Color : " + getColor(current_select) + "\n" + "Starts at :" + starts_at(current_select) + "\n" + "Ends at :" + ends_at(current_select))
+            current_select = e.target.parentNode.parentNode.id;
+            alert("Successfully Saved!\n"+"Title :" + getTitle(current_select) + "\n" + "Color : " + getColor(current_select) + "\n" + "Starts at :" + starts_at(current_select) + "\n" + "Ends at :" + ends_at(current_select));
         }
         count = count + 1;
         });
@@ -56,11 +59,12 @@ function alert_data(current_select){
 const month_str = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 const month_int = ['01','02','03','04','05','06','07','08','09','10','11','12']
 function trans_month(month){
-
+    console.log("1  " +month)
     for(let i =0; i<12; i++){
-        if(month.substring(3, 5).includes(month_str[i])==true){
-            const res = month.substring(3, 5).replace(month_str[i], month_int[i])
-            return (month.substring(0,3)+" "+res+" "+month.substring(6, 10));
+        if(month.includes(month_str[i])==true){
+            console.log("HI : 2"+month.substring(1,9));
+            const res = month.substring(month.indexOf(month_str[i], month_str[i].length)).replace(month_str[i], month_int[i]);
+            return (month.substring(0,5)+res+month.substring(0, 10));
         }
     }
 }
@@ -69,8 +73,8 @@ function reverse_month(temp){
     const result = [day, month, year].join(' ');
     for(let i =0; i<12; i++){
         if(result.substring(3, 5).includes(month_int[i])==true){
-            const res = result.substring(3, 5).replace(month_int[i], month_str[i])
-            return (result.substring(0,3)+" "+res+" "+result.substring(6, 10));
+            const res = result.substring(3, 5).replace(month_int[i], month_str[i]);
+            return (result.substring(0,3)+""+res+" "+result.substring(6, 10));
         }
     }
 }
@@ -116,7 +120,7 @@ function deletedb(){
 
 }
 
-let totalcount = 4, index_num = 0, current_select = 0;
+let totalcount = data.length, index_num = 0, current_select = 0;
 // 불러오기
 
 
@@ -132,7 +136,7 @@ $(document).ready(function(){
       $('.index_temp').each(function(i, obj) {
     obj.id = i;
     insert_data(obj.id)
-    console.log(obj.id);
+    // console.log(obj.id);
     });
 });
 
@@ -147,7 +151,7 @@ function addnewbtn(){
            current_select = e.target.parentNode.parentNode.id
         });
           }
-    console.log(obj.id);
+    // console.log(obj.id);
     });
 });
 }
