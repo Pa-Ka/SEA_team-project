@@ -175,7 +175,7 @@ def plan():
             ,jsonData['endTime'])
         try:
             # calenderID = jsonData['calenderID']
-            userID = "1FTLlxB_1PCOpadmWdIvQ54-qaJcT-Mb5dmHp1lI93U"
+            userID = "-"
             missionID = 1
             status = 1
             title = jsonData['title']
@@ -212,8 +212,8 @@ def CallBack():
     params = request.args.to_dict()
     code = params.get("code")
 
-    client_id = "xneNfIal5CkgtXiMRHOo"
-    client_secret = "8v1fnuPn29"
+    client_id = "-"
+    client_secret = "-"
 
     token_request = requests.get(
         f"https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id={client_id}&client_secret={client_secret}&code={code}")
@@ -277,7 +277,7 @@ def write():
 
 @app.route("/naver")
 def NaverLogin():
-    client_id = "xneNfIal5CkgtXiMRHOo"
+    client_id = "-"
     redirect_uri = "http://plan.is119.kr:7777/callback"
     url = f"https://nid.naver.com/oauth2.0/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     return redirect(url)
